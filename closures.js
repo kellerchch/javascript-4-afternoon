@@ -22,13 +22,13 @@ function outer() {
   Invoke outer saving the return value into another variable called 'inner'.
 */
   
-// Code Here
+var inner = outer();
 
 
 
 //Once you do that, invoke inner.
 
-//Code Here
+inner()
 
 
 
@@ -51,7 +51,8 @@ function callFriend(name) {
   (HINT: You will need to pass in arguments to both function invocations)
 */
 
-//Code Here
+var callJake = callFriend("Jake");
+callJake('858-952-6829')
 
 
 
@@ -61,8 +62,13 @@ function callFriend(name) {
   Write a function called makeCounter that makes the following code work properly.
 */
 
-//Code Here
-
+const makeCounter = () => {
+  var counter = 1;
+  //moving var counter outside of return and it makes this act like a global variable which retains the increment that happens when we run counter++
+  return () => {
+    return counter++;
+  };
+};
 
 
 //Uncomment this once you make your function
@@ -85,15 +91,24 @@ function callFriend(name) {
   http://stackoverflow.com/questions/17776940/javascript-module-pattern-with-example?answertab=votes#tab-top
 */
 
+//use the module pattern uses the object 
 function counterFactory(value) {
-  // Code here.
 
   return {
-
-  };
+    inc: () => {
+      return ++value;
+    },
+    dec: () => {
+      return --value;
+      }
+    };
 }
 
+//we had to move the ++ before the variable so the increment happens first and then we return. 
+
 counter = counterFactory(10);
+//counter is an object that stores the results of the counterFactory function
+
 // counter.inc() // 11
 // counter.inc() // 12
 // counter.inc() // 13
@@ -110,16 +125,16 @@ counter = counterFactory(10);
 */
 
 function motivation( firstname, lastname ) {
-  var welcomeText = "You're doing awesome, keep it up";
-
-  // code message function here.
-
+  var welcomeText = "You're doing awesome, keep it up ";
+  function message() {
+    return welcomeText + firstname + " " + lastname + ".";
+};
   //Uncommment this to return the value of your message function
-  //return message;
+  return message;
 }
 
 var greeting = motivation('Billy', 'Bob'); // 'You're doing awesome keep it up Billy Bob.
-
+greeting ()
 
 
 ////////// PROBLEM 6 //////////
@@ -142,10 +157,13 @@ var module = (function() {
 
   // Anything that is being returned is made public and can be invoked from
   // outside our lexical scope
-  return {
+  return { publicMethod: function ()
+    {return privateMethod()}
     // Code here.
   };
 })();
+module.publicMethod()
+
 
 
 
@@ -162,9 +180,16 @@ function secretNumber() {
   var secret = 143;
 
   return {
-    // Code here
+    addToSecret: (num) => {
+      return secret = secret + num;
+    },
+    takeAwayFromSecret: (num) => {
+      return secret = secret - num;
+    }
   };
 }
+
+var myNumber = secretNumber()
 
 
 
@@ -187,10 +212,35 @@ function secretNumber() {
 */
 
 function timeOutCounter() {
-  for (var i = 0; i <= 5; i++) {
+  for (let i = 0; i <= 5; i++) {
     setTimeout(function() {
       console.log(i);
     }, i * 1000);
   }
 }
 timeOutCounter();
+
+  //This is Luke and Zach's solution
+    // function timeOutCounter() {
+    // for (var i = 0; i <= 5; i++) {
+    // function setTimeOutWrapper (index) {
+    // setTimeout(function() {
+    // console.log(index));
+    // }, i * 1000);
+    // }
+    // setTimeOutWrapper(i)
+    // }
+    // }
+    // timeOutCounter();
+  
+  //This is Lin's solution
+    // function timeOutCounter() {
+    // var k;
+    // for (var i = 0; i <= 5; i++) {
+    // setTimeout(function() {
+    // console.log(i - (k--));
+    // }, i * 1000);
+    // k = i;
+    // }
+    // }
+    // timeOutCounter();
